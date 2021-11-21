@@ -1,0 +1,53 @@
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    flex-direction: column;
+    background-color: rgb(0, 162, 255);
+    width: 700px;
+    margin: auto;
+    margin-top: 20px;   
+}   
+button{
+    cursor: pointer;
+    width: 40px;
+    height: 40px;   
+}
+input {
+    width: 400px;
+    height: 30px;   
+}
+
+ul{
+    list-style-type: none;
+    height: 500px;
+    padding: 10px;
+}
+li{
+   padding: 5px;
+   background-color: rgba(255, 255, 255, 0.938); 
+   width: 600px;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   border: 1px solid;
+   margin: 5px;
+}
+li input {
+  width: 20px;
+  height: 20px;
+  cursor: pointer; 
+}
+li p{
+  width: 360px;
+  text-align: left;
+  font-size: 12pt;
+}
+li button {
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  font-size: 10px;
+  cursor: pointer;
+}
