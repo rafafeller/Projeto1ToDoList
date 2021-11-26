@@ -1,53 +1,92 @@
 
-var input = document.getElementById("task");
-var ul = document.getElementById("ul");
-var item = document.getElementById("li");
+var entrada = document.getElementById("text_input");
+var ul = document.getElementById("id_ul");
+var idKey = window.localStorage.length;
 
-function inputLength() {
-    return input.value.length;
-}
+function carregar() {
 
-function createListElement() {
+    var localStorageKeysSemOrder = [];
 
-    var li = document.createElement("li");
-
-    var check = document.createElement("input");
-    check.setAttribute("type", "checkbox");
-    li.appendChild(check);
-    var line
-    check.addEventListener("click", function (checkItem) {
-        if (!line){
-        const liPai = checkItem.srcElement.parentNode;
-        liPai.style.textDecorationLine = "line-through";
-        line = true;
-        } else {
-        const liPai = checkItem.srcElement.parentNode;
-        liPai.style.textDecorationLine = "";
-        line = false;
-        }
-    })
-    
-    var p = document.createElement("p");
-    p.appendChild(document.createTextNode(input.value));
-    li.appendChild(p);
-    ul.appendChild(li);
-    input.value = ""
-
-    var dBtn = document.createElement("button");
-    dBtn.appendChild(document.createTextNode("X"));
-    li.appendChild(dBtn);
-    dBtn.addEventListener("click", function (deleteListItem) {
-        var sure = confirm("Are you sure that you want to delete?");
-        if(sure){
-            li.remove();
-        }
-        
-        
-    });
-}
-
-function adicionar() {
-    if (inputLength() > 0) {
-        createListElement();
+    for (var i = 0; i < window.localStorage.length; i++) {
+        localStorageKeysSemOrder.push(window.localStorage.key(i));
     }
+
+    var localStorageKeysOrdered = localStorageKeysSemOrder.sort();
+
+    for (var i = 0; i < localStorageKeysOrdered.length; i++) {
+        var idKeyFromLocalStorage = localStorage.key(i);
+        var textoFromLocalStorage = window.localStorage.getItem(localStorageKeysOrdered[i]);
+
+        var textoObj = JSON.parse(textoFromLocalStorage);
+        var texto = textoObj.texto;
+
+        criarNovaLinha(`${idKeyFromLocalStorage}`, texto);
+    }
+}
+
+function criarNovaLinha(idKey, texto) {
+
+    if (texto == "") {
+        alert("Type a task!")
+    } else {
+
+        var li = document.createElement("li");
+
+        li.setAttribute("id", idKey);
+
+        ul.appendChild(li);
+
+        var btnCheck = document.createElement("input");
+        btnCheck.setAttribute("type", "checkbox");
+        li.appendChild(btnCheck);
+
+        btnCheck.addEventListener("change", function () {
+            if (this.checked) {
+                paragrafo.style.textDecorationLine = "line-through"
+            } else {
+                paragrafo.style.textDecorationLine = "";
+            }
+        });
+
+        var paragrafo = document.createElement("p");
+        paragrafo.appendChild(document.createTextNode(texto));
+        li.appendChild(paragrafo);
+
+        var btnDelete = document.createElement("button");
+        btnDelete.appendChild(document.createTextNode("X"));
+        li.appendChild(btnDelete);
+        btnDelete.addEventListener("click", function () {
+            var sure = confirm("Are you sure that you want to delete?");
+            if (sure) {
+                var idkeyFromLi = li.getAttribute("id");
+                excluirFromLocalStorage(idkeyFromLi);
+                li.remove();
+            }
+        })
+    }
+}
+
+function adicionarNovaTarefa() {
+
+    var texto = entrada.value;
+
+    if (texto == "") {
+        alert("Type a task!")
+    } else {
+
+    idKey++;
+    criarNovaLinha(idKey, texto);
+
+    var tarefaObj = new Object;
+    tarefaObj.texto = texto;
+
+    var tarefaString = JSON.stringify(tarefaObj);
+    window.localStorage.setItem(idKey, tarefaString);
+
+    entrada.value = "";
+    }
+}
+
+function excluirFromLocalStorage(idKey) {
+    window.localStorage.removeItem(idKey);
 }
