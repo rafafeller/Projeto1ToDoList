@@ -14,3 +14,5 @@ foi realizada; o texto que o usuário digitou ao cadastrar a atividade; botão p
 atividade da lista, caso desejado.
 - Quando o usuário marcar uma tarefa como realizada, o texto daquela linha deve ser tachado (line-through).
 - A lista deve ser salva no "localStorage" do navegador (incluindo quais itens já foram realizados), e deve ser carregada sempre que a página for reaberta.
+
+Rafael Feller
